@@ -1,0 +1,41 @@
+class AppApi {
+  static String url = "https://mayadeen-md.com/gaz/public/api";
+  static String IMAGEURL = 'https://mayadeen-md.com/gaz/public/storage/';
+  static String LOGIN = '/login';
+  static String Signup = '/register';
+  static String GetAllServices = '/get-all-services';
+  static String AddMainCategory = '/add-category';
+  static String GetMainCategory = '/get-my-categories-as-supplier';
+  static String AddSubCategory = '/add-sub-category';
+  static String AddProduct = '/add-product';
+  static String GetMyInvoices = '/get-my-invoices';
+  static String GetRecived = '/get-recived';
+  static String GetProduct(int id) => '/get-my-product-sub-cat/$id';
+  static String GetSubCategory(int id) => '/get-my-cat-subCategory/$id';
+  static String UpdateCategory(int id) => '/update-category/$id';
+  static String DeleteCategory(int id) => '/delete-category/$id';
+  static String UpdateSubCategory(int id) => '/update-sub-category/$id';
+  static String DeleteSubCategory(int id) => '/delete-sub-category/$id';
+  static String UpdateProduct(int id) => '/update-product/$id';
+  static String DeleteProduct(int id) => '/delete-product/$id';
+  static String AccRejInvoice({int? id, String? status}) =>
+      '/accept-or-reject-invoice/$id?status=$status';
+  static String CancelInvoice(int id) => '/cancel-invoice/$id';
+  static String FinishInvoice(int id) => '/finish-invoice/$id';
+  static String ArrangeInvoice(int id) => '/arrange-invoice/$id';
+  static String GetProfile = '/profile';
+  static String Wallet = '/supplier-wallet';
+  static String WalletTransaction = '/wallet-transactions';
+  static String GetDaileyOrders = '/get-daily-orders';
+  static String UpdateProfile = '/update-profile';
+  static String GetInfo = '/get-info';
+  static String GetNoti = '/get-noti';
+  static String SendContact = '/send-contact';
+  static String Report = '/report';
+  static String Rate = '/rate';
+  static String ChangeDiscountStatus(int id) => '/change-discount-status/$id';
+
+  static String GetAllRegions = '/get-all-regions';
+  static String GetAllCities(int id) => '/get-all-cities/$id';
+  static String GetAllDistricts(int id) => '/get-all-districts/$id';
+}

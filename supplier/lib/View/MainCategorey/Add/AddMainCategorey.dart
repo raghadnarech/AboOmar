@@ -1,0 +1,186 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
+import 'package:supplier/Constant/colors.dart';
+import 'package:supplier/Constant/styles.dart';
+import 'package:supplier/Services/Responsive.dart';
+import 'package:supplier/View/Drawer/Drawer.dart';
+import 'package:supplier/View/MainCategorey/Add/Controller/AddMainCategoryController.dart';
+import 'package:supplier/View/Widgets/TextInput/TextInputCustom.dart';
+
+final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+class AddMainCategorey extends StatelessWidget {
+  const AddMainCategorey({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        key: scaffoldKey,
+        endDrawer: CustomDrawer(),
+        appBar: AppBar(
+          actions: [
+            GestureDetector(
+              onTap: () => scaffoldKey.currentState?.openEndDrawer(),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SvgPicture.asset(
+                  'assets/svg/menu.svg',
+                  width: 30,
+                  height: 25,
+                ),
+              ),
+            ),
+          ],
+          backgroundColor: kPrimaryColor,
+          centerTitle: true,
+          title: Text(
+            "إضافة تصنيف رئيسي",
+            style: style15semiboldwhite,
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.only(top: 8, right: 16),
+          child: Consumer<AddMainCategoryController>(
+            builder: (context, controller, child) => ListView(
+              physics: BouncingScrollPhysics(),
+              children: [
+                Text(
+                  "إضافة تصنيف رئيسي",
+                  style: style15semibold,
+                ),
+                Gap(20),
+                Row(
+                  children: [
+                    Text(
+                      "اسم التصنيف الرئيسي",
+                      style: style12semibold,
+                    ),
+                    Gap(5),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 12, right: 8),
+                        child: TextInputCustom(
+                          controller: controller.namecontroller,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Gap(40),
+                Row(
+                  children: [
+                    Text(
+                      "اضف صورة التصنيف",
+                      style: style12semibold,
+                    ),
+                    Gap(20),
+                    GestureDetector(
+                      onTap: () {
+                        controller.SelectImage(context);
+                      },
+                      child: Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(3),
+                          color: kSecendryColor,
+                        ),
+                        child: Icon(
+                          Icons.add,
+                          color: kBaseColor,
+                        ),
+                      ),
+                    ),
+                    Gap(20),
+                    controller.imagecat == null
+                        ? Container()
+                        : Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.file(
+                                    controller.imagecat!,
+                                    fit: BoxFit.fill,
+                                    width: 100,
+                                    height: 100,
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 0,
+                                  left: 0,
+                                  child: GestureDetector(
+                                    onTap: () => controller.removelogo(),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: kSecendryColor,
+                                          borderRadius: BorderRadius.only(
+                                              bottomRight:
+                                                  Radius.circular(10))),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(2.0),
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: kBaseColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                  ],
+                ),
+                SizedBox(height: Responsive.getHeight(context) * 0.4),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
+                  child: GestureDetector(
+                    onTap: () async {
+                      EasyLoading.show();
+                      var result = await controller.AddMainCategory(context);
+                      result.fold(
+                        (l) {
+                          EasyLoading.dismiss();
+                          EasyLoading.showError(l.message);
+                        },
+                        (r) {
+                          EasyLoading.dismiss();
+                        },
+                      );
+                    },
+                    child: Container(
+                      height: Responsive.getHeight(context) * 0.055,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            kPrimaryColor,
+                            kBaseThirdyColor,
+                          ],
+                          begin: Alignment.bottomRight,
+                          end: Alignment.bottomLeft,
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Center(
+                          child: Text(
+                        " إضافة",
+                        style: style15semiboldwhite,
+                      )),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
